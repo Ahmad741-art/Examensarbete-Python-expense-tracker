@@ -1,0 +1,207 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --color1: #072227;
+  --color2: #35858b;
+  --color3: #4fbdba;
+  --color4: #aefeff;
+  --black: #000;
+  --white: #fff;
+  --gray: #f5f5f5;
+  --red: #e74c3c;
+  --green: #2ecc71;
+}
+
+body {
+  background-color: var(--gray);
+  font-size: 16px;
+  color: var(--color1);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: var(--white);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* Header */
+.header {
+  background-color: var(--color1);
+  color: white;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Formulär */
+form {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+form input,
+form select,
+form textarea {
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.3s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  border-color: var(--color2);
+}
+
+form button {
+  grid-column: span 2;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background-color: var(--color2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+form button:hover {
+  background-color: var(--color3);
+  transform: translateY(-2px);
+}
+
+/* Tabell */
+.transactions-table {
+  width: 100%;
+  margin-top: 3rem;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.transactions-table th {
+  background-color: var(--color2);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.transactions-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transactions-table td.income {
+  color: var(--green);
+  font-weight: bold;
+}
+
+.transactions-table td.expense {
+  color: var(--red);
+  font-weight: bold;
+}
+
+/* Filter & Export */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.actions input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.actions button {
+  padding: 0.9rem 1.6rem;
+  background-color: var(--color1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.actions button:hover {
+  background-color: var(--color3);
+  transform: scale(1.02);
+}
+
+/* Sammanfattning */
+.summary {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--color4);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary p {
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+/* Tom lista */
+.empty_text {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--color3);
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Responsiv */
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions input,
+  .actions button {
+    width: 100%;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  form button {
+    grid-column: span 1;
+  }
+}

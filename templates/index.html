@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Min Budgetapp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="header">
+        🧾 Min Expense Tracker
+    </div>
+
+    <div class="container">
+
+        <!-- Formulär för ny transaktion -->
+        <form action="{{ url_for('add_transaction') }}" method="POST" autocomplete="off">
+            <input type="text" name="title" placeholder="Titel" required />
+            <input type="number" name="amount" step="0.01" placeholder="Belopp (kr)" required />
+            <select name="category" required>
+                <option value="">Välj kategori</option>
+                <option value="Mat">🍔 Mat</option>
+                <option value="Transport">🚌 Transport</option>
+                <option value="Boende">🏠 Boende</option>
+                <option value="Underhållning">🎬 Underhållning</option>
+                <option value="Annat">📦 Annat</option>
+            </select>
+            <input type="date" name="date" required />
+            <select name="type" required>
+                <option value="">Välj typ</option>
+                <option value="income">Inkomst</option>
+                <option value="expense">Utgift</option>
+            </select>
+            <button type="submit">Lägg till transaktion</button>
+        </form>
+
+        <!-- Filter och export -->
+        <div class="actions">
+            <form method="GET" action="{{ url_for('index') }}">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Sök titel eller kategori..."
+                    value="{{ request.args.get('search', '') }}"
+                />
+                <button type="submit">Filtrera</button>
+            </form>
+            <a href="{{ url_for('export_csv') }}">
+                <button>📥 Exportera CSV</button>
+            </a>
+        </div>
+
+        <!-- Tabell med transaktioner -->
+        {% if transactions %}
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Belopp</th>
+                        <th>Kategori</th>
+                        <th>Datum</th>
+                        <th>Ta bort</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                        <tr>
+                            <td>{{ t.title }}</td>
+                            <td class="{{ 'income' if t.amount > 0 else 'expense' }}">
+                                {{ "%.2f"|format(t.amount|abs) }} kr
+                            </td>
+                            <td>{{ t.category }}</td>
+                            <td>{{ t.date.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <form
+                                    action="{{ url_for('delete_transaction', id=t.id) }}"
+                                    method="POST"
+                                    style="display:inline;"
+                                >
+                                    <button
+                                        type="submit"
+                                        style="color: var(--red); background: none; border: none; cursor: pointer;"
+                                        title="Ta bort"
+                                    >
+                                        🗑️
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty_text">Inga transaktioner hittades.</p>
+        {% endif %}
+
+        <!-- Sammanfattning -->
+        <div class="summary">
+            <p>
+                💰 Totalt saldo:
+                <strong>{{ "%.2f"|format(balance) }} kr</strong>
+            </p>
+            <p>
+                📈 Totala inkomster:
+                <strong style="color: var(--green);">{{ "%.2f"|format(total_income) }} kr</strong>
+            </p>
+            <p>
+                📉 Totala utgifter:
+                <strong style="color: var(--red);">{{ "%.2f"|format(total_expense) }} kr</strong>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
